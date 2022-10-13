@@ -6,19 +6,25 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.aroman.testexcercise1.R
 import com.aroman.testexcercise1.databinding.ActivityMapsBinding
+import com.aroman.testexcercise1.domain.MarkerListRepo
+import com.aroman.testexcercise1.domain.entities.MarkerEntity
 import com.aroman.testexcercise1.ui.favourites.FavouritesFragment
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
-    private lateinit var allMarkers: ArrayList<MarkerOptions>
+    private lateinit var allMarkers: List<MarkerEntity>
+
+    private val viewModel: MapsViewModel by viewModel()
+    private val repo: MarkerListRepo by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,25 +36,41 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        initViewModel()
+        updateMarkerList()
     }
 
-    override fun onResume() {
-        super.onResume()
-        allMarkers = arrayListOf()
+    private fun initViewModel() {
+        viewModel.markerList.observe(this) {
+            allMarkers = it
+        }
+    }
+
+    private fun updateMarkerList() {
+        viewModel.loadMarkerList()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        allMarkers.add(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.addMarker(allMarkers[0])
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        viewModel.loadMarkerList()
 
         mMap.setOnMapClickListener {
-            allMarkers.add(MarkerOptions().position(it).title("new Marker ${allMarkers.size}"))
-            mMap.addMarker(allMarkers[allMarkers.size - 1])
+            val marker = MarkerEntity(
+                id = 0,
+                name = "",
+                lat = String.format("%.9f", it.latitude).toDouble(),
+                long = String.format("%.9f", it.longitude).toDouble(),
+                annotation = ""
+            )
+            viewModel.insertMarker(marker)
+            mMap.addMarker(
+                MarkerOptions()
+                    .position(LatLng(marker.lat, marker.long))
+                    .title(marker.name)
+                    .snippet(marker.annotation)
+            )
         }
     }
 

@@ -10,6 +10,12 @@ class FakeMarkerListRepoImpl() : MarkerListRepo {
         MarkerEntity(2, "Moscow", 55.751244, 37.618423, "Capital of Russia"),
     )
 
+    override suspend fun insertMarker(marker: MarkerEntity) {
+        list.add(
+            MarkerEntity(2, "Moscow", 55.751244, 37.618423, "Capital of Russia"),
+        )
+    }
+
     override suspend fun loadMarkerList(): List<MarkerEntity> {
         return list
     }
