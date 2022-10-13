@@ -6,6 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.aroman.testexcercise1.R
 import com.aroman.testexcercise1.databinding.ActivityMapsBinding
+import com.aroman.testexcercise1.ui.favourites.FavouritesFragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback

@@ -1,9 +1,8 @@
-package com.aroman.testexcercise1.ui
+package com.aroman.testexcercise1.ui.favourites
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aroman.testexcercise1.domain.entities.MarkerEntity
-import com.aroman.testexcercise1.utils.FavouritesViewHolder
 
 class FavouritesAdapter(private val onItemClick: (position: Int) -> Unit) :
     RecyclerView.Adapter<FavouritesViewHolder>() {

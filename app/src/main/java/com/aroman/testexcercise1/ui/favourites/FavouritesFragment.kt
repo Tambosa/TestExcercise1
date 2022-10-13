@@ -1,4 +1,4 @@
-package com.aroman.testexcercise1.ui
+package com.aroman.testexcercise1.ui.favourites
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package com.aroman.testexcercise1.utils
+package com.aroman.testexcercise1.ui.favourites
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
