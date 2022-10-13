@@ -1,6 +1,8 @@
 package com.aroman.testexcercise1
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.aroman.testexcercise1.databinding.ActivityMapsBinding
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -46,5 +48,34 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             allMarkers.add(MarkerOptions().position(it).title("new Marker ${allMarkers.size}"))
             mMap.addMarker(allMarkers[allMarkers.size - 1])
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.action_bar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_favourites -> {
+                startFavouritesFragment()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun startFavouritesFragment() {
+        val pointerFragment = supportFragmentManager.findFragmentByTag(FAVOURITES_FRAGMENT_TAG)
+        if (pointerFragment == null || !pointerFragment.isVisible) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.map, FavouritesFragment(), FAVOURITES_FRAGMENT_TAG)
+                .addToBackStack(null)
+                .commit()
+        }
+    }
+
+    companion object {
+        const val FAVOURITES_FRAGMENT_TAG = "favourites"
     }
 }
