@@ -1,9 +1,10 @@
-package com.aroman.testexcercise1
+package com.aroman.testexcercise1.ui
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.aroman.testexcercise1.R
 import com.aroman.testexcercise1.databinding.ActivityMapsBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap

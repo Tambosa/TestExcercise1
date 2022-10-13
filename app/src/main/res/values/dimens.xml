@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_side">16dp</dimen>
+    <dimen name="marker_card_view_margin">16dp</dimen>
+    <dimen name="client_card_view_stroke_width">1dp</dimen>
+    <dimen name="pointer_card_view_corner_radius">10dp</dimen>
+    <dimen name="pointer_inner_items_margin">6dp</dimen>
+</resources>
