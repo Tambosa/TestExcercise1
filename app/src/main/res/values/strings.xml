@@ -7,4 +7,7 @@
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
     <string name="annotation">Annotation</string>
+    <string name="moscow">Moscow</string>
+    <string name="new_marker">New Marker</string>
+    <string name="moscow_annotation">A modern metropolitan and business hub, Moscow is the capital city and the heart of Russia, as well as one of the biggest cities on the continent.</string>
 </resources>

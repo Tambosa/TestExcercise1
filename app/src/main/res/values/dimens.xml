@@ -5,4 +5,5 @@
     <dimen name="client_card_view_stroke_width">1dp</dimen>
     <dimen name="pointer_card_view_corner_radius">10dp</dimen>
     <dimen name="pointer_inner_items_margin">6dp</dimen>
+    <dimen name="recycler_view_margin">8dp</dimen>
 </resources>
