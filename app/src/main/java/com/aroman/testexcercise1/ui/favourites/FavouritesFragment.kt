@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.aroman.testexcercise1.data.FakeMarkerListRepoImpl
 import com.aroman.testexcercise1.databinding.FragmentFavouritesBinding
 import com.aroman.testexcercise1.utils.attachLeftSwipeHelper
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class FavouritesFragment : Fragment() {
     private var _binding: FragmentFavouritesBinding? = null
@@ -17,7 +18,7 @@ class FavouritesFragment : Fragment() {
         onItemClick(position)
     }
 
-    private val viewModel = FavouritesViewModel(FakeMarkerListRepoImpl())
+    private val viewModel: FavouritesViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
