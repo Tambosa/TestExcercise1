@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">TestExcercise1</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="favourites">Закладки</string>
+    <string name="save">Save</string>
+    <string name="name">Name</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="annotation">Annotation</string>
+    <string name="moscow">Moscow</string>
+    <string name="new_marker">New Marker</string>
+    <string name="find_me">Find me</string>
+    <string name="me">ME</string>
+    <string name="moscow_annotation">A modern metropolitan and business hub, Moscow is the capital city and the heart of Russia, as well as one of the biggest cities on the continent.</string>
+    <string name="location_permission_alert">Location access not allowed</string>
 </resources>
