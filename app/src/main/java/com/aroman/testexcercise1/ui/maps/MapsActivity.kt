@@ -83,6 +83,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 supportFragmentManager.popBackStack()
+                binding.findMeButton.visibility = View.VISIBLE
                 detachOldMarkers()
                 updateMarkerList()
             }
@@ -236,10 +237,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun startFavouritesFragment() {
+        binding.findMeButton.visibility = View.GONE
         val pointerFragment = supportFragmentManager.findFragmentByTag(FAVOURITES_FRAGMENT_TAG)
         if (pointerFragment == null || !pointerFragment.isVisible) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.map, FavouritesFragment(), FAVOURITES_FRAGMENT_TAG)
+                .replace(R.id.main_container, FavouritesFragment(), FAVOURITES_FRAGMENT_TAG)
                 .addToBackStack(null)
                 .commit()
         }

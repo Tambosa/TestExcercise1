@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aroman.testexcercise1.databinding.FragmentFavouritesBinding
+import com.aroman.testexcercise1.ui.markerDetails.MarkerDetailsFragment
 import com.aroman.testexcercise1.utils.attachLeftSwipeHelper
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -35,6 +37,20 @@ class FavouritesFragment : Fragment() {
         initRecycler()
         initViewModel()
         renderData()
+        initOnBackPressed()
+    }
+
+    private fun initOnBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner, object : OnBackPressedCallback(
+                true
+            ) {
+                override fun handleOnBackPressed() {
+                    parentFragmentManager.popBackStack()
+                    renderData()
+                }
+            }
+        )
     }
 
     private fun initRecycler() {
@@ -58,7 +74,13 @@ class FavouritesFragment : Fragment() {
     }
 
     private fun onItemClick(position: Int) {
-
+        parentFragmentManager.beginTransaction()
+            .replace(
+                binding.fragmentContainer.id,
+                MarkerDetailsFragment.newInstance(favouritesAdapter.getData()[position])
+            )
+            .addToBackStack("")
+            .commit()
     }
 
     override fun onDestroy() {

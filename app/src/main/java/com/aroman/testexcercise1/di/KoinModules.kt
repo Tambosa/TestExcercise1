@@ -8,6 +8,7 @@ import com.aroman.testexcercise1.data.room.RoomDb
 import com.aroman.testexcercise1.domain.MarkerListRepo
 import com.aroman.testexcercise1.ui.maps.MapsViewModel
 import com.aroman.testexcercise1.ui.favourites.FavouritesViewModel
+import com.aroman.testexcercise1.ui.markerDetails.MarkerDetailsViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -33,5 +34,6 @@ object KoinModules {
     val viewModel = module {
         viewModel { FavouritesViewModel(get<MarkerListRepo>()) }
         viewModel { MapsViewModel(get<MarkerListRepo>()) }
+        viewModel { MarkerDetailsViewModel(get<MarkerListRepo>()) }
     }
 }
