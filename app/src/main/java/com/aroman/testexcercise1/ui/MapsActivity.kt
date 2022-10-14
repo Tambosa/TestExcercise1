@@ -1,5 +1,6 @@
 package com.aroman.testexcercise1.ui
 
+import android.Manifest
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -9,12 +10,16 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.aroman.testexcercise1.R
 import com.aroman.testexcercise1.databinding.ActivityMapsBinding
 import com.aroman.testexcercise1.domain.entities.MarkerEntity
 import com.aroman.testexcercise1.ui.favourites.FavouritesFragment
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter
@@ -34,6 +39,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private var visibleMarkers = arrayListOf<Marker>()
 
     private val viewModel: MapsViewModel by viewModel()
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val locationPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                showUserLocation()
+            } else {
+                Toast.makeText(
+                    this,
+                    getString(R.string.location_permission_alert),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +59,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         initViewModel()
@@ -86,11 +105,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         updateMarkerList()
         initOnMapClickListener()
         initOnMarkerClickListener()
+        initFindMeButton()
+    }
+
+    private fun initFindMeButton() {
+        binding.findMeButton.setOnClickListener {
+            locationPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
     }
 
     private fun initOnMarkerClickListener() {
         mMap.setOnMarkerClickListener { marker ->
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.position, 2F));
             if (marker.isInfoWindowShown) {
                 marker.hideInfoWindow()
             } else {
@@ -169,6 +194,31 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             visibleMarkers.add(it)
         }
     }
+
+    private fun showUserLocation() {
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location ->
+                if (location != null) {
+                    val marker = MarkerEntity(
+                        id = 0,
+                        name = getString(R.string.me),
+                        lat = String.format("%.9f", location.latitude).toDouble(),
+                        long = String.format("%.9f", location.longitude).toDouble(),
+                        annotation = ""
+                    )
+                    viewModel.insertMarker(marker)
+                    attachMarker(marker)
+
+                    mMap.moveCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                            LatLng(location.latitude, location.longitude),
+                            14F
+                        )
+                    )
+                }
+            }
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.action_bar_menu, menu)
