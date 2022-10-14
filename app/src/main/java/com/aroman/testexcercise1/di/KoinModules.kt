@@ -6,7 +6,7 @@ import com.aroman.testexcercise1.data.room.MarkerDAO
 import com.aroman.testexcercise1.data.room.RoomConst
 import com.aroman.testexcercise1.data.room.RoomDb
 import com.aroman.testexcercise1.domain.MarkerListRepo
-import com.aroman.testexcercise1.ui.MapsViewModel
+import com.aroman.testexcercise1.ui.maps.MapsViewModel
 import com.aroman.testexcercise1.ui.favourites.FavouritesViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
